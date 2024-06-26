@@ -4,12 +4,14 @@ namespace OpenTelemetryWorkshop.Backend.Controllers;
 
 [ApiController]
 [Route("age")]
-public class AgeController : ControllerBase
+public class AgeController(ILogger<AgeController> logger) : ControllerBase
 {
     private static Random _randomAge = new();
     
     public ActionResult<int> GetAge()
     {
-        return _randomAge.Next(18, 100);
+        var age = _randomAge.Next(18, 100);
+        logger.LogInformation("Generated age: {age}", age);
+        return age;
     }
 }
