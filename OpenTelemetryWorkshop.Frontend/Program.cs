@@ -1,4 +1,5 @@
 using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -26,6 +27,11 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
             .AddHttpClientInstrumentation()
             .AddConsoleExporter()
+            .AddOtlpExporter())
+    .WithMetrics(mpb => 
+        mpb
+            .AddHttpClientInstrumentation()
+            .AddAspNetCoreInstrumentation()
             .AddOtlpExporter());
 
 var app = builder.Build();

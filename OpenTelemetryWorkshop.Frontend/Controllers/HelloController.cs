@@ -20,9 +20,8 @@ public class HelloController(ILogger<HelloController> logger, HttpClient httpCli
         logger.LogInformation("Saying hello to {fullname}", fullname);
 
         var backendBaseUrl = configuration["BackendBaseUrl"];
-        var res = await httpClient.GetAsync($"{backendBaseUrl}/age");
+        var res = await httpClient.GetAsync($"{backendBaseUrl}/age?firstname={firstname}&surname={surname}");
         int.TryParse(await res.Content.ReadAsStringAsync(), out var age);
-        
 
         return $"Hello {fullname} you are {age} years old";
     }

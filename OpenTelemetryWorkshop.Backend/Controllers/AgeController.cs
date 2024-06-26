@@ -10,7 +10,7 @@ public class AgeController(ILogger<AgeController> logger) : ControllerBase
 {
     private static Random _randomAge = new();
     
-    public ActionResult<int> GetAge()
+    public ActionResult<int> GetAge([FromQuery] string firstname, [FromQuery] string surname)
     {
         Activity.Current?.SetTag("user_agent", Baggage.GetBaggage("original_user_agent"));
 
@@ -21,6 +21,10 @@ public class AgeController(ILogger<AgeController> logger) : ControllerBase
             span?.SetTag("age", age);
         }
         logger.LogInformation("Generated age: {age}", age);
+        
+        DiagnosticConfig.ProfileRequests.Add(1, new("firstname", firstname), new("surname", surname));
+        DiagnosticConfig.RequestAge.Record(age, new("firstname", firstname), new("surname", surname));
+        
         return age;
     }
 }
