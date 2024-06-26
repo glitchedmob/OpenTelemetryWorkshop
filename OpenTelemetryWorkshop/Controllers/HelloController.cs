@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OpenTelemetryWorkshop.Controllers;
 
@@ -7,8 +8,11 @@ namespace OpenTelemetryWorkshop.Controllers;
 public class HelloController : ControllerBase
 {
     [HttpGet]
-    public ActionResult<string> GetHello([FromQuery] string firstName, [FromQuery] string surname)
+    public ActionResult<string> GetHello([FromQuery] string firstname, [FromQuery] string surname)
     {
-        return $"Hello {firstName} {surname}";
+        Activity.Current?.SetTag("firstname", firstname);
+        Activity.Current?.SetTag("surname", surname);
+
+        return $"Hello {firstname} {surname}";
     }
 }

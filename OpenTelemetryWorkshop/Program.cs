@@ -10,8 +10,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource.AddService("dotnet-frontend"))
-    .WithTracing(tpb =>tpb.AddAspNetCoreInstrumentation().AddConsoleExporter());
+    .ConfigureResource(resource => 
+        resource
+            .AddService("dotnet-frontend")
+            .AddAttributes(new List<KeyValuePair<string, object>>
+            {
+                new("developer", "Levi Zitting")
+            }))
+    .WithTracing(tpb =>
+        tpb
+            .AddAspNetCoreInstrumentation()
+            .AddConsoleExporter());
 
 var app = builder.Build();
 
