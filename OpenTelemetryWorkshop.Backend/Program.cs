@@ -13,6 +13,7 @@ builder.Logging.AddOpenTelemetry(options => options.AddOtlpExporter());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => 
@@ -45,5 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.MapHealthChecks("/healthcheck");
 
 app.Run();
