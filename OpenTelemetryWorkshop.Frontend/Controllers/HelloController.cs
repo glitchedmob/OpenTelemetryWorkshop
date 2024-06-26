@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OpenTelemetryWorkshop.Controllers;
+namespace OpenTelemetryWorkshop.Frontend.Controllers;
 
 [ApiController]
 [Route("hello")]

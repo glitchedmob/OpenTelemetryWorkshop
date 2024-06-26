@@ -1,0 +1,6 @@
+@OpenTelemetryWorkshopFrontend_HostAddress = https://localhost:7135
+
+GET {{OpenTelemetryWorkshopFrontend_HostAddress}}/hello?firstname=John&surname=Smith
+Accept: application/json
+
+###
