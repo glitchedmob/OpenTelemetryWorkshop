@@ -1,6 +1,6 @@
-@OpenTelemetryWorkshop_HostAddress = http://localhost:5267
+@OpenTelemetryWorkshop_HostAddress = https://localhost:7135
 
-GET {{OpenTelemetryWorkshop_HostAddress}}/weatherforecast/
+GET {{OpenTelemetryWorkshop_HostAddress}}/hello?firstname=John&surname=Smith
 Accept: application/json
 
 ###
