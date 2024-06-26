@@ -5,18 +5,22 @@ namespace OpenTelemetryWorkshop.Frontend.Controllers;
 
 [ApiController]
 [Route("hello")]
-public class HelloController(ILogger<HelloController> logger) : ControllerBase
+public class HelloController(ILogger<HelloController> logger, HttpClient httpClient, IConfiguration configuration) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<string> GetHello([FromQuery] string firstname, [FromQuery] string surname)
+    public async Task<ActionResult<string>> GetHello([FromQuery] string firstname, [FromQuery] string surname)
     {
         Activity.Current?.SetTag("firstname", firstname);
         Activity.Current?.SetTag("surname", surname);
 
         var fullname = $"{firstname} {surname}";
-        
         logger.LogInformation($"Saying hello to {fullname}");
 
-        return $"Hello {fullname}";
+        var backendBaseUrl = configuration["BackendBaseUrl"];
+        var res = await httpClient.GetAsync($"{backendBaseUrl}/age");
+        int.TryParse(await res.Content.ReadAsStringAsync(), out var age);
+        
+
+        return $"Hello {fullname} you are {age} years old";
     }
 }

@@ -1,6 +1,6 @@
-@OpenTelemetryWorkshop.Backend_HostAddress = http://localhost:5142
+@OpenTelemetryWorkshopBackend_HostAddress = https://localhost:7092
 
-GET {{OpenTelemetryWorkshop.Backend_HostAddress}}/weatherforecast/
+GET {{OpenTelemetryWorkshopBackend_HostAddress}}/age
 Accept: application/json
 
 ###
