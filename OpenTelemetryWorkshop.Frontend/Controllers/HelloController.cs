@@ -14,7 +14,7 @@ public class HelloController(ILogger<HelloController> logger, HttpClient httpCli
         Activity.Current?.SetTag("surname", surname);
 
         var fullname = $"{firstname} {surname}";
-        logger.LogInformation($"Saying hello to {fullname}");
+        logger.LogInformation("Saying hello to {fullname}", fullname);
 
         var backendBaseUrl = configuration["BackendBaseUrl"];
         var res = await httpClient.GetAsync($"{backendBaseUrl}/age");
