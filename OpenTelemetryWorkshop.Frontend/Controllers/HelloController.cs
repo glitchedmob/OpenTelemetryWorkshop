@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry;
 
 namespace OpenTelemetryWorkshop.Frontend.Controllers;
 
@@ -12,6 +13,8 @@ public class HelloController(ILogger<HelloController> logger, HttpClient httpCli
     {
         Activity.Current?.SetTag("firstname", firstname);
         Activity.Current?.SetTag("surname", surname);
+
+        Baggage.SetBaggage("original_user_agent", HttpContext.Request.Headers["User-Agent"]);
 
         var fullname = $"{firstname} {surname}";
         logger.LogInformation("Saying hello to {fullname}", fullname);
