@@ -13,7 +13,13 @@ public class AgeController(ILogger<AgeController> logger) : ControllerBase
     public ActionResult<int> GetAge()
     {
         Activity.Current?.SetTag("user_agent", Baggage.GetBaggage("original_user_agent"));
-        var age = _randomAge.Next(18, 100);
+
+        var age = 0;
+        using (var span = DiagnosticConfig.Source.StartActivity("Generate Age")) 
+        {
+            age = _randomAge.Next(18, 100);
+            span?.SetTag("age", age);
+        }
         logger.LogInformation("Generated age: {age}", age);
         return age;
     }
