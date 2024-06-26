@@ -10,6 +10,24 @@ processors:
     traces:
       span:
         - 'attributes["http.route"] == "/healthcheck"'
+  transform:
+    error_mode: ignore
+    metric_statements:
+      - context: resource
+        statements:
+          - set(attributes["collector.location"], "${COLLECTOR_LOCATION}")
+          - set(attributes["meta.signal_type"], "metrics") where attributes["meta.signal_type"] == nil
+          - set(attributes["collector.collector"], "${COLLECTOR_NAME}")
+    trace_statements:
+      - context: resource
+        statements:
+          - set(attributes["collector.location"], "${COLLECTOR_LOCATION}")
+          - set(attributes["collector.collector"], "${COLLECTOR_NAME}")
+    log_statements:
+      - context: resource
+        statements:
+          - set(attributes["collector.location"], "${COLLECTOR_LOCATION}")
+          - set(attributes["collector.collector"], "${COLLECTOR_NAME}")
 
 exporters:
   otlp:
@@ -28,6 +46,7 @@ service:
       processors: 
         - batch
         - filter/healthcheck
+        - transform
       exporters: [otlp]
     metrics:
       receivers: [otlp]
